@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion"
+import React, { useState, useEffect } from "react";
 
 export default function Home() {
   const [maskPosition, setMaskPosition] = useState("50% 50%");
@@ -33,36 +34,29 @@ export default function Home() {
     }, []);
     // 
 
-  const handleMouseMove = (e) => {
-    const rect = e.target.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setMaskPosition(`${x}% ${y}%`);
-  };
+  // const handleMouseMove = (e) => {
+  //   const rect = e.target.getBoundingClientRect();
+  //   const x = ((e.clientX - rect.left) / rect.width) * 100;
+  //   const y = ((e.clientY - rect.top) / rect.height) * 100;
+  //   setMaskPosition(`${x}% ${y}%`);
+  // };
 
-  const handleMouseLeave = () => {
-    setMaskPosition("50% 50%"); // Reset mask position
-  };
+  // const handleMouseLeave = () => {
+  //   setMaskPosition("50% 50%"); // Reset mask position
+  // };
 
   return (
-    <main className="bg-black items-center w-screen justify-center flex h-screen">
+  <div className="cover items-center w-screen h-screen flex justify-center">
       <div
         className="mask3 h-[800px] w-[800px]"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
+        // onMouseMove={handleMouseMove}
+        // onMouseLeave={handleMouseLeave}
         style={{
           "--mask-position": maskPosition, // Using a CSS variable for mask position
         }}
       >
         <img src="/7.jpg" className="h-[800px] w-[800px]" alt="pic" />
       </div>
-    </main>
+    </div>
   );
-  // return (
-  //   <main className="bg-black items-center w-screen justify-center flex h-screen">
-  //     <div className="mask3 h-[800px] w-[800px]">
-  //       <img src="/7.jpg" className="h-[800px] w-[800px]" alt="pic" />
-  //     </div>
-  //   </main>
-  // );
 }
