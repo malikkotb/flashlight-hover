@@ -1,62 +1,67 @@
 "use client";
 import Image from "next/image";
-import { motion, useMotionValue, useSpring } from "framer-motion"
-import React, { useState, useEffect } from "react";
+import { motion, useScroll } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+
+function getRandomHexCode() {
+  return (
+    "#" +
+    Math.floor(Math.random() * 0xffffff)
+      .toString(16)
+      .padStart(6, "0")
+  );
+}
 
 export default function Home() {
-  const [maskPosition, setMaskPosition] = useState("50% 50%");
+  const { scrollYProgress } = useScroll();
+  const [gradientWidth, setGradientWidth] = useState("100px"); // Initial value of gradient width
+  const coverRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
 
-    // custom Cursor
-    const cursorSize = 15;
-    const mouse = {
-      x: useMotionValue(0),
-      y: useMotionValue(0),
-    };
-    const [isHovered, setIsHovered] = useState(false); // State to track hover
-  
-    const smoothOptions = { damping: 20, stiffness: 300, mass: 0.5 };
-    const smoothMouse = {
-      x: useSpring(mouse.x, smoothOptions),
-      y: useSpring(mouse.y, smoothOptions),
-    };
-  
-    const manageMouseMove = (e) => {
-      const { clientX, clientY } = e;
-      mouse.x.set(clientX - cursorSize / 2);
-      mouse.y.set(clientY - cursorSize / 2);
-    };
-  
-    useEffect(() => {
-      window.addEventListener("mousemove", manageMouseMove);
-      return () => {
-        window.removeEventListener("mousemove", manageMouseMove);
-      };
-    }, []);
-    // 
+  const manageMouseMove = (e) => {
+    if (!coverRef.current) return;
+    const { clientX, clientY } = e;
 
-  // const handleMouseMove = (e) => {
-  //   const rect = e.target.getBoundingClientRect();
-  //   const x = ((e.clientX - rect.left) / rect.width) * 100;
-  //   const y = ((e.clientY - rect.top) / rect.height) * 100;
-  //   setMaskPosition(`${x}% ${y}%`);
-  // };
+    const randomColor = getRandomHexCode();
+    console.log(randomColor); 
+    coverRef.current.style.setProperty("--color", `${randomColor}`)
+    coverRef.current.style.setProperty("--x", `${clientX}px`);
+    coverRef.current.style.setProperty("--y", `${clientY}px`);
+  };
 
-  // const handleMouseLeave = () => {
-  //   setMaskPosition("50% 50%"); // Reset mask position
-  // };
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    coverRef.current.style.setProperty("--gradient-width", `${200}px`);
+  };
+
+  // Function to handle mouse leave event
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    coverRef.current.style.setProperty("--gradient-width", `${100}px`);
+  };
+
+  useEffect(() => {
+    window.addEventListener("mousemove", manageMouseMove);
+    return () => {
+      window.removeEventListener("mousemove", manageMouseMove);
+    };
+  }, []);
 
   return (
-  <div className="cover items-center w-screen h-screen flex justify-center">
-      <div
-        className="mask3 h-[800px] w-[800px]"
-        // onMouseMove={handleMouseMove}
-        // onMouseLeave={handleMouseLeave}
+    <>
+      <div ref={coverRef} className="cover bg-black items-center w-full h-screen flex justify-center">
+        <h3 onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="text-7xl uppercase text-white">
+          Gradients
+        </h3>
+        {/* <motion.div
+        className="bg-blue w-20 h-20 absolute z-10"
         style={{
-          "--mask-position": maskPosition, // Using a CSS variable for mask position
+          transform: `scale(${1 - scrollYProgress})`,
         }}
       >
-        <img src="/7.jpg" className="h-[800px] w-[800px]" alt="pic" />
+
+      </motion.div> */}
       </div>
-    </div>
+    </>
   );
 }

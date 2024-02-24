@@ -13,10 +13,12 @@
   mask-image: radial-gradient(circle at var(--mask-position), black 50%, rgba(0, 0, 0, 0.6) 50%);
 }
 
+
+/* here we are using css variables, and setting the default values to 100px each */
 .cover {
   background-image: radial-gradient(
-    circle farthest-side at 100px 100px,
+    circle farthest-side at var(--x, 100px) var(--y, 100px),
     #1250aa 0%,
-    transparent 100%
+    transparent var(--gradient-width)
   );
 }
