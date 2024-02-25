@@ -1,7 +1,5 @@
 "use client";
-import Image from "next/image";
-import { motion, useScroll } from "framer-motion";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 function getRandomHexCode() {
   return (
@@ -13,10 +11,7 @@ function getRandomHexCode() {
 }
 
 export default function Home() {
-  const { scrollYProgress } = useScroll();
-  const [gradientWidth, setGradientWidth] = useState("100px"); // Initial value of gradient width
   const coverRef = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
 
   const manageMouseMove = (e) => {
     if (!coverRef.current) return;
@@ -26,14 +21,12 @@ export default function Home() {
   };
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
     const randomColor = getRandomHexCode();
     coverRef.current.style.setProperty("--color", `${randomColor}`)
   };
 
   // Function to handle mouse leave event
   const handleMouseLeave = () => {
-    setIsHovered(false);
     const randomColor = getRandomHexCode();
     coverRef.current.style.setProperty("--color", `${randomColor}`)
   };
