@@ -22,21 +22,25 @@ export default function Home() {
     if (!coverRef.current) return;
     const { clientX, clientY } = e;
 
-    const randomColor = getRandomHexCode();
-    console.log(randomColor); 
-    coverRef.current.style.setProperty("--color", `${randomColor}`)
     coverRef.current.style.setProperty("--x", `${clientX}px`);
     coverRef.current.style.setProperty("--y", `${clientY}px`);
   };
 
   const handleMouseEnter = () => {
     setIsHovered(true);
-    coverRef.current.style.setProperty("--gradient-width", `${200}px`);
+    const randomColor = getRandomHexCode();
+    coverRef.current.style.setProperty("--color", `${randomColor}`)
+
+    coverRef.current.style.setProperty("--gradient-width", `${300}px`);
   };
 
   // Function to handle mouse leave event
   const handleMouseLeave = () => {
     setIsHovered(false);
+    const randomColor = getRandomHexCode();
+
+    coverRef.current.style.setProperty("--color", `${randomColor}`)
+
     coverRef.current.style.setProperty("--gradient-width", `${100}px`);
   };
 

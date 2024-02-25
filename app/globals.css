@@ -18,7 +18,7 @@
 .cover {
   background-image: radial-gradient(
     circle farthest-side at var(--x, 100px) var(--y, 100px),
-    #1250aa 0%,
+    var(--color) 0%,
     transparent var(--gradient-width)
   );
 }
