@@ -21,7 +21,6 @@ export default function Home() {
   const manageMouseMove = (e) => {
     if (!coverRef.current) return;
     const { clientX, clientY } = e;
-
     coverRef.current.style.setProperty("--x", `${clientX}px`);
     coverRef.current.style.setProperty("--y", `${clientY}px`);
   };
@@ -30,18 +29,13 @@ export default function Home() {
     setIsHovered(true);
     const randomColor = getRandomHexCode();
     coverRef.current.style.setProperty("--color", `${randomColor}`)
-
-    coverRef.current.style.setProperty("--gradient-width", `${300}px`);
   };
 
   // Function to handle mouse leave event
   const handleMouseLeave = () => {
     setIsHovered(false);
     const randomColor = getRandomHexCode();
-
     coverRef.current.style.setProperty("--color", `${randomColor}`)
-
-    coverRef.current.style.setProperty("--gradient-width", `${100}px`);
   };
 
   useEffect(() => {
@@ -54,17 +48,9 @@ export default function Home() {
   return (
     <>
       <div ref={coverRef} className="cover bg-black items-center w-full h-screen flex justify-center">
-        <h3 onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="text-7xl uppercase text-white">
+        <h3 onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="text-8xl uppercase text-white">
           Gradients
         </h3>
-        {/* <motion.div
-        className="bg-blue w-20 h-20 absolute z-10"
-        style={{
-          transform: `scale(${1 - scrollYProgress})`,
-        }}
-      >
-
-      </motion.div> */}
       </div>
     </>
   );
